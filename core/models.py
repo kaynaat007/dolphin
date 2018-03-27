@@ -23,6 +23,9 @@ class User(models.Model):
     username = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=1023)
 
+    def __str__(self):
+        return self.username
+
 
 class Question(models.Model):
     """
@@ -31,6 +34,9 @@ class Question(models.Model):
     statement = models.CharField(max_length=2 * 1023)
     asked_by = models.ForeignKey(User)
     asked_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.statement
 
 
 class Answer(models.Model):
@@ -42,6 +48,9 @@ class Answer(models.Model):
     answered_by = models.ForeignKey(User)
     question = models.ForeignKey(Question)
 
+    def __str__(self):
+        return self.statement
+
 
 class Vote(models.Model):
     """
@@ -51,5 +60,8 @@ class Vote(models.Model):
     voted_by = models.ForeignKey(User)
     voted_at = models.DateTimeField(auto_now=True)
     weight = models.IntegerField(choices=VOTE_CHOICES)
+
+    def __str__(self):
+        return '{1} voted by {0} for answer id {2}'.format(self.voted_by.username, self.weight, self.answer.pk)
 
 
